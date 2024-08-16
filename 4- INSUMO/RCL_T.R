@@ -1,4 +1,5 @@
 
+
 # RCLs REALIZADAS EM T-1 E T E PROJETADA PARA T--------------------------
 RCL <- realizado %>% 
   filter(RECEITAS == 'RECEITA CORRENTE LÍQUIDA') %>% 
@@ -6,10 +7,10 @@ RCL <- realizado %>%
   mutate(across(2:13, ~ na_if(as.numeric(.), 0.00))) %>% 
   pivot_longer(cols =  2:13) %>% 
   mutate(data = ymd(paste0(name, '01'))) %>% 
-  setNames(c('RCL', 'name', 'RCL_2024', 'data')) %>% 
+  setNames(c('RCL', 'name', 'RCL_2024', 'data')) %>%
   bind_cols(projeção %>% 
               filter(ESPECIFICAÇÃO == 'RECEITA CORRENTE LÍQUIDA (III) = (I-II)') %>% 
-              select(c(1, starts_with(glue('{year(Sys.Date())}')))) %>% 
+              select(c(1, starts_with(glue('{year(Sys.Date())}')))) %>%
               mutate(across(2:13, as.numeric)) %>% 
               pivot_longer(cols =  2:13) %>% 
               mutate(data = ymd(paste0(name, '01'))) %>% 
@@ -26,7 +27,7 @@ RCL <- realizado %>%
 # RCLs REALIZADAS EM T-2, T-1 E T
     bind_cols(realizado %>% 
               filter(RECEITAS == 'RECEITA CORRENTE LÍQUIDA') %>% 
-              select(c(1, starts_with(glue('{year(Sys.Date())}')))) %>% 
+              select(c(1, starts_with(glue('{year(Sys.Date())}')))) %>%
               mutate(across(2:13, ~ na_if(as.numeric(.), 0.00))) %>% 
               pivot_longer(cols =  2:13) %>% 
               mutate(data = ymd(paste0(name, '01'))) %>% 
@@ -115,7 +116,9 @@ RCL <- realizado %>%
          col_space4 = NA,
          dif_proj = RCL_2024 - Projeção_RCL,
          dif_proj_acum = acum_24 - proj_acum,
-         data1 = tools::toTitleCase(format(as.Date(data), "%B")))
+         data1 = tools::toTitleCase(format(as.Date(data), "%B"))) %>%
+# RETIRANDO AS COLUNAS DAS PROJEÇÕES
+  select(-col_space2,-Projeção_RCL,-proj_acum,-col_space4,-dif_proj,-dif_proj_acum)
   
 # CONFIGURANDO A TABELA --------------------------------------------------------
 tabela_acumulado <- RCL %>%
@@ -123,18 +126,21 @@ tabela_acumulado <- RCL %>%
   select(-data1) %>% 
   flextable() %>% 
   border_remove() %>%
-  colformat_double(j = c("RCL_2023", "RCL_2024", 'acum_23', 'acum_24',
-                         'Projeção_RCL', 'proj_acum'),
+  colformat_double(j = c("RCL_2023", "RCL_2024", 'acum_23', 'acum_24'
+                         # 'Projeção_RCL', 'proj_acum'
+                         ),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 0, 
                    na_str = "--") %>% 
   
-  colformat_double(j = c('dif_mes', 'dif_acum', 'dif_proj', 'dif_proj_acum'),
-                   big.mark=".",
-                   decimal.mark = ',', 
-                   digits = 2, 
-                   na_str = "--") %>% 
+  #' colformat_double(j = c('dif_mes', 'dif_acum',
+  #'                        #'dif_proj', 'dif_proj_acum'
+  #'                        ),
+  #'                  big.mark=".",
+  #'                  decimal.mark = ',', 
+  #'                  digits = 2, 
+  #'                  na_str = "--") %>% 
   
   colformat_double(j = c('dif_mes', 'dif_acum'),
                    big.mark=".",
@@ -144,8 +150,10 @@ tabela_acumulado <- RCL %>%
                    suffix = " %") %>%
   
   set_header_labels(values = c('Arrecadação',"2023", "2024",'', '2023', '2024','',
-                               "Mensal", "Acumulado 12M",' ', "Mensal", "Acumulado",
-                               '   ',"Mensal", "Acumulado")) %>% 
+                               # "Mensal", "Acumulado 12M",' ',
+                               "Mensal", "Acumulado"
+                               # '   ',"Mensal", "Acumulado"
+                               )) %>% 
   bg(., 
      part = "header", 
      bg = cor1[2]) %>% 
@@ -161,19 +169,22 @@ tabela_acumulado <- RCL %>%
   
   color( ~ dif_mes < 0, ~ dif_mes,  color = cor1[4] ) %>% 
   color( ~ dif_acum < 0, ~ dif_acum,  color = cor1[4] ) %>% 
-  color( ~ dif_proj < 0, ~ dif_proj,  color = cor1[4] ) %>% 
-  color( ~ dif_proj_acum < 0, ~ dif_proj_acum,  color = cor1[4]) %>% 
+  # color( ~ dif_proj < 0, ~ dif_proj,  color = cor1[4] ) %>% 
+  # color( ~ dif_proj_acum < 0, ~ dif_proj_acum,  color = cor1[4]) %>% 
   
   add_header_row(values = c('Arrecadação', 'Mensal', '  ', "Acumulado (12 meses)",
-                            '   ', "Projeções", '    ', 'Diferença (%) \n Igual periodo',
-                            ' ', 'Realizado X Projetado'), 
-                 colwidths = c(1,2,1,2,1,2,1,2,1,2)) %>% 
+                            # '   ',"Projeções",
+                            '    ', 'Diferença (%) \n Igual periodo'
+                            # ' ',
+                            # 'Realizado X Projetado'
+                            ), 
+                 colwidths = c(1,2,1,2,1,2)) %>% 
   
   merge_at(i = 1:2, j = 1, part = "header") %>% 
   align(i = c(1,2), j = NULL, align = "center", part = "header") %>% 
-  hline(i = 1, j = c(2,3,5,6,8,9,11,12,14,15), part = "header", 
+  hline(i = 1, j = c(2,3,5,6,8,9), part = "header", 
         border =  std_border) %>% 
-  width(j = c(4,7,10,13), width = .2, unit = 'cm') %>% 
+  width(j = c(4,7), width = .2, unit = 'cm') %>% 
   width(j = 1, width = 3.6, unit = 'cm') %>% 
-  width(j = c(2,3,5,6,8,9,11,12,14,15), width = 2.6, unit = 'cm') 
+  width(j = c(2,3,5,6,8,9), width = 2.6, unit = 'cm')
 
