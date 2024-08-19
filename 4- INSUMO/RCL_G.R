@@ -127,12 +127,12 @@ bloco1 <- RCL12_m |>
   mutate(RCL_24 = round(RCL_24/1000000000,2)) |> 
   pull()
 
-# bloco2 <- RCL |>
-#   select(RCL_2024) |>
-#   drop_na() |>
-#   tail(1) |>
-#   mutate(RCL_2024 = round(RCL_2024/1000,2)) |>
-#   pull()
+bloco2 <- RCL |>
+  select(RCL_2024) |>
+  drop_na() |>
+  tail(1) |>
+  mutate(RCL_2024 = round(RCL_2024/1000,2)) |>
+  pull()
 
 # bloco3 <- round(bloco1 - bloco2, 2)
 
