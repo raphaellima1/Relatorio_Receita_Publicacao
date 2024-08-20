@@ -81,32 +81,23 @@ tabela_total <- receitas_base %>%
          dif_acum = acum_24 - projecao_acum) %>% 
   adorn_totals(na.rm = TRUE, fill = " ") %>% 
   setNames(c("Arrecadação", "2023", "2024", " ", ' 2023', ' 2024', "  ",
-             " Mensal", " Acumulado", "   ", 'Mensal', 'Acumulado'))
-
+             " Mensal", " Acumulado", "   ", 'Mensal', 'Acumulado')) 
+  
 
 
 # EDITANDO A TABELA A SER PLOTADA NO SLIDE -------------------------------------
 # CONVERTENDO O DATA FRAME EM IMAGEM, E RENOMEANDO AS COLUNAS
 tabela_acumulado <- tabela_total %>%
+  select(-Mensal, -Acumulado, -`   `, -` Mensal`, -` Acumulado`,-`  `) |> 
   flextable() %>% 
   border_remove() %>%
-  padding( i=c(2,3), j=1, padding.left=15) %>% 
-  colformat_double(j = c("2023", "2024", ' 2023', ' 2024',
-                         " Mensal", " Acumulado"),
+  padding( i=c(2), j=1, padding.left=15) %>% 
+  colformat_double(j = c("2023", "2024", ' 2023', ' 2024'),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 0, 
                    na_str = "--") %>%
-# CONVERTENDO "." PARA "," E COLOCANDO VALOR NEGATIVO PRA FICAR VERMELHO
-  colformat_double(j = c('Mensal', 'Acumulado'),
-                   big.mark=".",
-                   decimal.mark = ',', 
-                   digits = 2, 
-                   na_str = "--") %>% 
-  color( ~ Mensal < 0, ~ Mensal,  color = cor1[4]) %>% 
-  color( ~ Acumulado < 0, ~ Acumulado,  color = cor1[4]) %>% 
-  set_header_labels(values = c('Arrecadação',"2023", "2024",'', '2023', '2024','',
-                               "Mensal", "Acumulado",'', "Mensal", "Acumulado")) %>%
+  set_header_labels(values = c('Arrecadação',"2023", "2024",'', '2023', '2024')) %>%
 # DEFININDO AS CORES DAS LINHAS PRINCIPAL E SECUNDÁRIAS, E ADICIONANDO NEGRITO NA LINHA PRINCIPAL
   bg(., 
      part = "header", 
@@ -132,18 +123,40 @@ tabela_acumulado <- tabela_total %>%
   hline(i = c(6,7), part = "body", 
         border =  std_border) %>% 
 # ADICIONANDO UMA LINHA ACIMA DA LINHA PRINCIPAL
-  add_header_row(values = c('Arrecadação', 'Mensal', '  ', "Acumulado (Ano)",
-                            '   ', "Projeções", '    ', 'Diferença em R$ (Real./24) - (Proj./24)'), 
-                 colwidths = c(1,2,1,2,1,2,1,2)) %>%
+  add_header_row(values = c('Arrecadação', 'Mensal', '  ', "Acumulado (Ano)"), 
+                 colwidths = c(1,2,1,2)) %>%
 # MESCLANDO AS LINHAS 1 E 2 DA COLUNA 1
   merge_at(i = 1:2, j = 1, part = "header") %>% 
 # CENTRALIZANDO 
   align(i = 1, j = NULL, align = "center", part = "header") %>% 
-  hline(i = 1, j = c(2,3,5,6,8,9,11,12), part = "header", 
+  hline(i = 1, j = c(2,3,5), part = "header", 
         border =  std_border) %>% 
-  width(j = c(4,7,10), width = .2, unit = 'cm') %>% 
-  width(j = 1, width = 2.8, unit = 'cm') %>% 
-  width(j = c(2,3,5,6,8,9,11,12), width = 1.8, unit = 'cm') |> 
-  width(j = c(9,12), width = 2.4, unit = 'cm') 
+  width(j = c(4), width = .4, unit = 'cm') %>% 
+  width(j = 1, width = 3.5, unit = 'cm') %>% 
+  width(j = c(2,3,5,6), width = 2.3, unit = 'cm') 
 
 tabela_acumulado
+
+bloco1 <- tabela_total |> 
+  filter(Arrecadação == 'ICMS') |> 
+  select(` 2024`) |>
+  mutate(` 2024` = ` 2024`/1000) |> 
+  pull()
+
+bloco2 <- tabela_total |> 
+  filter(Arrecadação == 'IPVA') |> 
+  select(` 2024`) |>
+  mutate(` 2024` = ` 2024`/1000) |> 
+  pull()
+
+bloco3 <- tabela_total |> 
+  filter(Arrecadação == 'ITCD') |> 
+  select(` 2024`) |>
+  mutate(` 2024` = ` 2024`) |> 
+  pull()
+
+bloco4 <- tabela_total |> 
+  filter(Arrecadação == 'FUNDEINFRA') |> 
+  select(` 2024`) |>
+  mutate(` 2024` = ` 2024`) |> 
+  pull()
