@@ -127,20 +127,12 @@ tabela_acumulado <- RCL %>%
   flextable() %>% 
   border_remove() %>%
   colformat_double(j = c("RCL_2023", "RCL_2024", 'acum_23', 'acum_24'
-                         # 'Projeção_RCL', 'proj_acum'
+
                          ),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 0, 
                    na_str = "--") %>% 
-  
-  #' colformat_double(j = c('dif_mes', 'dif_acum',
-  #'                        #'dif_proj', 'dif_proj_acum'
-  #'                        ),
-  #'                  big.mark=".",
-  #'                  decimal.mark = ',', 
-  #'                  digits = 2, 
-  #'                  na_str = "--") %>% 
   
   colformat_double(j = c('dif_mes', 'dif_acum'),
                    big.mark=".",
@@ -185,6 +177,12 @@ tabela_acumulado <- RCL %>%
   hline(i = 1, j = c(2,3,5,6,8,9), part = "header", 
         border =  std_border) %>% 
   width(j = c(4,7), width = .2, unit = 'cm') %>% 
-  width(j = 1, width = 3.6, unit = 'cm') %>% 
-  width(j = c(2,3,5,6,8,9), width = 2.6, unit = 'cm')
+  width(j = 1, width = 3, unit = 'cm') %>% 
+  width(j = c(2,3,5,6,8,9), width = 2.3, unit = 'cm') |> 
+  height(i = c(1:12), height = 0.7, unit = 'cm') |> 
+  fontsize(size = 11, part = "header") %>% 
+  fontsize(size = 11, part = "body") |> 
+  padding(padding.left = 2, padding.right = 2, padding.top = 0, padding.bottom = 0, part = "all") %>% 
+  padding( i=c(1:12), j=1, padding.left=8)
 
+tabela_acumulado

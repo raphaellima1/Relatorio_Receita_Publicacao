@@ -23,10 +23,7 @@ RLT <- RLT %>%
 fig1 <- RLT %>%
   mutate(fant_24 = sub("\\.", ",", round(acum_24 / 1000, digits = 2))) |> 
   ggplot()+
-  geom_ribbon(aes(x = data, ymin = (proj_acum * (1 - RLT_band)) * 1000000,
-                  ymax = (proj_acum * (1 + RLT_band)) * 1000000), fill = "grey80", alpha = 0.5) +
-  geom_line(aes(x = data, y = proj_acum*1000000, color = "Projeção 2024", 
-                linetype = "Projeção 2024"), size=0.5) +
+ 
   geom_line(aes(x = data, y = acum_23*1000000, color = "Acumulado 2023", 
                 linetype = "Acumulado 2023"), size=0.5) +
   
@@ -41,7 +38,7 @@ fig1 <- RLT %>%
 
   labs(x = "  ", 
        y = "Valores em R$", 
-       title = "RTL acumulada",
+       title = "RT acumulada",
        linetype = "Variable",
        color = "Variable") +
   
@@ -49,19 +46,17 @@ fig1 <- RLT %>%
   
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
-  scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+  scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                      values = c("Acumulado 2024"= cor2[1],
-                                "Acumulado 2023"=cor2[2],
-                                "Projeção 2024"=cor2[3]), 
+                                "Acumulado 2023"=cor2[2]), 
                      name="Legenda:")+
-  scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+  scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                         values = c("Acumulado 2024"='solid',
-                                   "Acumulado 2023"='solid',
-                                   "Projeção 2024"='longdash'), 
+                                   "Acumulado 2023"='solid'), 
                         name="Legenda:")+
   
   labs(fill = "Title") +
-  theme_classic2() +  
+  theme_hc() +
   theme(
     plot.title = element_text(hjust = 0.5),
     legend.title = element_blank(),
@@ -75,16 +70,7 @@ fig1 <- RLT %>%
 fig2 <- RLT |> 
   mutate(fant_24 = sub("\\.", ",", round(RCL_2024 / 1000, digits = 2))) |> 
   ggplot() +
-  geom_ribbon(aes(x = data, ymin = band_inf * 1000000, 
-                  ymax = band_sup * 1000000), 
-              fill = "grey80", alpha = 0.5) +
-  
-  geom_line(aes(x = data, 
-                y = Projeção_RCL * 1000000, 
-                color = "Projeção 2024", 
-                linetype = "Projeção 2024"), 
-            size = 0.5) +
-  
+
   geom_line(data = RLT, 
             aes(x = data, 
                 y = RCL_2023 * 1000000, 
@@ -104,42 +90,33 @@ fig2 <- RLT |>
                             linetype = "Acumulado 2024"), 
             size = 1) +
   
-  labs(x = "Meses", y = "Valores em R$", title = "Receita Líquida mensal", 
+  labs(x = "Meses", y = "Valores em R$", title = "RT mensal", 
        linetype = "Variable", color = "Variable") +
   
-  scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale()), limits = c(0, 5000000000)) +
   scale_x_date(date_breaks = "2 month", date_labels = "%b") +
   
   scale_color_manual(breaks = c('Acumulado 2023', 
-                                "Acumulado 2024", 
-                                'Projeção 2024'),
+                                "Acumulado 2024"),
                      values = c("Acumulado 2024" = cor2[1], 
-                                "Acumulado 2023" = cor2[2], 
-                                "Projeção 2024" = cor2[3]), 
+                                "Acumulado 2023" = cor2[2]), 
                      name = "Legenda:") +
   
   scale_linetype_manual(breaks = c('Acumulado 2023', 
-                                   "Acumulado 2024", 
-                                   'Projeção 2024'),
+                                   "Acumulado 2024"),
                         values = c("Acumulado 2024" = 'solid', 
-                                   "Acumulado 2023" = 'solid', 
-                                   "Projeção 2024" = 'longdash'), 
+                                   "Acumulado 2023" = 'solid'), 
                         name = "Legenda:") +
-  theme_classic2() + 
+  theme_hc() + 
   
   theme(plot.title = element_text(hjust = 0.5),
         legend.title = element_blank(),
         legend.position = "bottom")
 
-# Utilizando Gráfico em branco para criar espaço
-spacer <- ggplot() +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "white", color = NA))
-
 # Juntando gráficos
 fig.allg <- ggarrange(
-  fig1, spacer, fig2,
-  ncol = 3, nrow = 1, 
+  fig1, fig2,
+  ncol = 1, nrow = 2, 
   widths = c(1, 0.04, 1),  # Ajustar proporção das colunas, onde 0.2 é o espaçador
   common.legend = TRUE, 
   legend = "bottom"

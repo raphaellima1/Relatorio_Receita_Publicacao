@@ -271,19 +271,19 @@ TAB_GER <- df_PLOA2024 %>%
 # FORMATAÇÃO DA TABELA -----------------
 
 tabela_acumulado <- TAB_GER %>%
+  select(-GERENCIAL, -`Até agosto`, -`Dif. (R$)`,-`Dif. (%)`, -col_space...13) |> 
   flextable() %>% 
   fontsize(size = 10, part = "header") %>% 
   fontsize(size = 10, part = "body") %>%
   border_remove() %>%
-  colformat_double(j = c("PLOA 2024", "GERENCIAL", 
-                         glue::glue("Até {format(mes_atualizacao, '%B')}"), "Acumulado 2023",
-                         "Acumulado 2024", "Dif. (R$)", "Dif.  (R$)"),
+  colformat_double(j = c("PLOA 2024", "Acumulado 2023",
+                         "Acumulado 2024", "Dif.  (R$)"),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 2, 
                    na_str = "--") %>% 
   
-  colformat_double(j = c("Dif. (%)", "Dif.  (%)"),
+  colformat_double(j = c("Dif.  (%)"),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 1, 
@@ -291,9 +291,8 @@ tabela_acumulado <- TAB_GER %>%
                    suffix = ' %') %>% 
 
   
-  set_header_labels(values = c("RECEITAS", "LOA 2024","(2024)", 
-                               glue::glue("Até {format(mes_atualizacao, '%B')}"), " ",
-                               "Acumulado 2023", "Acumulado 2024", " ", "Dif. (R$)", "Dif. (%)", " ",
+  set_header_labels(values = c("RECEITAS", "LOA 2024"," ",
+                               "Acumulado 2023", "Acumulado 2024", " ",
                                "Dif. (R$)", "Dif. (%)")) %>% 
   
   bg(., 
@@ -321,36 +320,26 @@ tabela_acumulado <- TAB_GER %>%
           bold = F,
           color = cor1[3]
         )) %>% 
-  color( ~ `Dif. (R$)` < 0, ~ `Dif. (R$)`,  color = cor1[4]) %>% 
   color( ~ `Dif.  (R$)` < 0, ~ `Dif.  (R$)`,  color = cor1[4]) %>% 
-  color( ~ `Dif. (%)` < 0, ~ `Dif. (%)`,  color = cor1[4]) %>% 
   color( ~ `Dif.  (%)` < 0, ~ `Dif.  (%)`,  color = cor1[4]) %>% 
   
-  add_header_row(values = c("RECEITAS", "LOA 2024", "Cenário atual", " ",
-                            glue::glue(" "), " ",
-                            " ", " ", " "), 
-                 colwidths = c(1,1,2,1,2,1,2,1,2)) %>% 
-  add_header_row(values = c("RECEITAS", "Previsões", " ",
-                            glue::glue("Realizado até {format(mes_atualizacao, '%B')}"), " ",
-                            "Cenário x Realizado", " ", "Acum24/Acum23"), 
-                 colwidths = c(1,3,1,2,1,2,1,2)) %>% 
-  
-  merge_at(i = 1:3, j = 1, part = "header") %>% 
-  merge_at(i = 2:3, j = 2, part = "header") %>% 
-  merge_at(i = 1:2, j = c(6:7), part = "header") |> 
-  merge_at(i = 1:2, j = c(9:10), part = "header") |>  
-  merge_at(i = 1:2, j = c(12:13), part = "header") |>  
+  add_header_row(values = c("RECEITAS", "LOA 2024", " ",
+                            glue::glue("Realizado até {format(mes_atualizacao, '%B')}"),
+                            '', 'Acum24/Acum23'), 
+                 colwidths = c(1,1,1,2,1,2)) %>% 
+
+  merge_at(i = 1:2, j = 1, part = "header") %>% 
+  merge_at(i = 1:2, j = 2, part = "header") |> 
   align(align = "center", part = "header") %>% 
   align(j = 1, align = "left", part = "header") %>% 
-  width(j = 1, width = 8.3, unit = 'cm') %>%
+  width(j = 1, width = 12.4, unit = 'cm') %>%
   
-  width(j = c(2:13), width = 2.4, unit = 'cm') |>
-  width(j = c(5,8,11), width = .2, unit = 'cm') |> 
-  hline(i = 1, j = c(2:4), border = fp_border(color = "white", width = 1), part = 'header') %>% 
-  hline(i = 2, j = c(3:4,6:7,9:10,12:13), border = fp_border(color = "white", width = 1), part = 'header') %>% 
-  hline(i = 2, j = c(3,6,12), border = fp_border(color = "white", width = 1), part = 'header') %>% 
+  width(j = c(2:8), width = 3.5, unit = 'cm') |>
+  width(j = c(3,6), width = .4, unit = 'cm') |> 
+  hline(i = 1, j = c(4:5), border = fp_border(color = "white", width = 1), part = 'header') %>% 
+  hline(i = 1, j = c(7:8), border = fp_border(color = "white", width = 1), part = 'header') |>  
   height(height = 0.4, part = "header", unit = 'cm') %>%
-  height(height = 0.4, part = "body", unit = 'cm') %>% 
+  height(height = 0.4, part = "body", unit = 'cm') |> 
   padding(padding.left = 2, padding.right = 2, padding.top = 0, padding.bottom = 0, part = "all") %>% 
   padding( i=c(3:7, 14:17, 19:22, 30), j=1, padding.left=8) %>% 
-  fontsize(j = c(1:13), size = 10, part = "body")
+  fontsize(j = c(1:8), size = 10, part = "body")

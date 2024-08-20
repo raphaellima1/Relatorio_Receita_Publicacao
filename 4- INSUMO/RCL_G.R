@@ -26,7 +26,7 @@ RCL12_m <- realizado %>%
               mutate(data = ymd(paste0(name, '01'))) %>% 
               setNames(c('RCL', 'name', 'RCL_2024', 'data'))) %>% 
   arrange(data) %>% 
-# PEGANDO AS RCLs MENSAIS E CALCULANDO O ACUMULADO MÓVEL DE 12 MESES
+# PEGANDO AS RCLs MENSAIS E CALCULANDO O Realizado MÓVEL DE 12 MESES
   mutate(RCL12 = rollsum(RCL_2024, 12, fill = NA, align = "right"),
          ano = year(data)) %>% 
   filter(ano == 2024) %>% 
@@ -150,13 +150,13 @@ fig1 <-
          ) %>%
   ggplot() +
   # geom_ribbon(aes(x = data, ymin = band_inf, ymax = band_sup), fill = "grey80", alpha = 0.5) +
-  geom_line(aes(x = data, y = RCL_23, color = "Acumulado 2023",
-                linetype = "Acumulado 2023"), size=1) +
-  geom_line(aes(x = data, y = RCL_24, color = "Acumulado 2024", 
-                linetype = "Acumulado 2024"), size=1) +
+  geom_line(aes(x = data, y = RCL_23, color = "Realizado 2023",
+                linetype = "Realizado 2023"), size=1) +
+  geom_line(aes(x = data, y = RCL_24, color = "Realizado 2024", 
+                linetype = "Realizado 2024"), size=1) +
   # geom_label(aes(x = data, y = PROJ_24, label = fantp_24),vjust = 1.1,colour = cor2[3])+
   # geom_label(aes(x = data, y = RCL_23, label = fant_23),vjust = 0.5,colour = cor2[2]) +
-  # geom_label(aes(x = data, y = RCL_24, label = fant_24),vjust = 0.5,colour = cor2[1]) +
+  geom_label(aes(x = data, y = RCL_24, label = fant_24),vjust = 0.5,colour = cor2[1], size = 3) +
   labs(x = "",y = "",title = "RCL acumulada em 12 meses",
        linetype = "Variable",color = "Variable") +
   scale_y_continuous(labels=scales::label_number(scale_cut = scales::cut_short_scale(),decimal.mark = ',',
@@ -165,17 +165,17 @@ fig1 <-
                date_breaks = "2 month", 
                date_labels = "%b")+
   scale_color_manual(breaks = c(#'Projeção 2024', 
-                                'Acumulado 2023',
-                                'Acumulado 2024'),
-                     values = c("Acumulado 2023"= cor2[2],
-                                'Acumulado 2024'= cor2[1]
+                                'Realizado 2023',
+                                'Realizado 2024'),
+                     values = c("Realizado 2023"= cor2[2],
+                                'Realizado 2024'= cor2[1]
                                 #"Projeção 2024"=cor2[3]
                                 ), 
                      name="Legenda:") +
   scale_linetype_manual(breaks = c(#'Projeção 2024',
-                                   'Acumulado 2023', 'Acumulado 2024'),
-                        values = c('Acumulado 2023' = 'solid',
-                                   'Acumulado 2024' = 'solid'
+                                   'Realizado 2023', 'Realizado 2024'),
+                        values = c('Realizado 2023' = 'solid',
+                                   'Realizado 2024' = 'solid'
                                    #"Projeção 2024"='longdash'
                                    ), 
                         name="Legenda:") +
@@ -200,7 +200,7 @@ fig2 <-
                 linetype = "Realizado 2023"), size=0.5) +
   geom_line(aes(x = data, y = RCL_2024*1000000, color = "Realizado 2024", 
                 linetype = "Realizado 2024"), size=1) +
-  # geom_label(aes(x = data, y = RCL_2024*1000000, label = fant_24),vjust = 0.5,colour = cor2[1]) +
+  geom_label(aes(x = data, y = RCL_2024*1000000, label = fant_24),vjust = 0.5,colour = cor2[1], size = 3) +
   # geom_label(aes(x = data, y = RCL_2023*1000000, label = fant_23),vjust = 0.5,colour = cor2[2])+
   # geom_line(aes(x = data, y = Projeção_RCL*1000000, color = "Projeção 2024", 
                 # linetype = "Projeção 2024"), size=0.5) +
@@ -210,7 +210,7 @@ fig2 <-
        linetype = "Variable",
        color = "Variable") +
   scale_y_continuous(labels=scales::label_number(scale_cut = scales::cut_short_scale(),
-                                                 decimal.mark=',',prefix='R$ ')) +
+                                                 decimal.mark=',',prefix='R$ '), limits = c(0, 5000000000)) +
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
   scale_color_manual(breaks = c('Realizado 2023', "Realizado 2024"#, 'Projeção 2024'
@@ -235,6 +235,6 @@ fig2 <-
   )
 
 fig.allg <- 
-  ggarrange(fig1, fig2, ncol = 1, nrow = 2, common.legend = F)
+  ggarrange(fig1, fig2, ncol = 1, nrow = 2, common.legend = T,legend = 'bottom')
 
   
