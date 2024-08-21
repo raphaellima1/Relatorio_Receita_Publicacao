@@ -4,6 +4,7 @@ variaveis <- c("COMBUSTÍVEL", "COMÉRCIO ATACADISTA E DISTRIBUIDOR",
                'EXTRATOR MINERAL OU FÓSSIL', 'INDÚSTRIA', 'OUTROS', 
                'PRESTAÇÃO DE SERVIÇO','PRODUÇÃO AGROPECUÁRIA')
 
+
 funcao_graf <- function(filtro_base = NULL, filtro_projecao = NULL) {
   tabela_teste <- ICMS_base %>% 
     mutate(mes = month(data)) %>% 
@@ -27,6 +28,7 @@ funcao_graf <- function(filtro_base = NULL, filtro_projecao = NULL) {
   
   
   fig1 <- tabela_teste %>% 
+    mutate(fant_24 = sub("\\.", ",", round(acum_24, digits = 2))) |>
     ggplot()+
     geom_line(aes(x = Mes, y = acum_23*1000000, color = "Acumulado 2023", 
                   linetype = "Acumulado 2023"), size=0.5) +
@@ -34,8 +36,7 @@ funcao_graf <- function(filtro_base = NULL, filtro_projecao = NULL) {
     geom_line(aes(x = Mes, y = acum_24*1000000, color = "Acumulado 2024", 
                   linetype = "Acumulado 2024"), size=1) +
     
-    geom_line(aes(x = Mes, y = acum_proj*1000000, color = "Projeção 2024", 
-                  linetype = "Projeção 2024"), size=0.5) +
+    #geom_label(aes(x = Mes, y = acum_24*1000000, label = fant_24),vjust = 0.5,colour = cor2[1], size = 2.5) +
     
     labs(x = "  ",
          y = "Valores em Reais (R$)",
@@ -47,15 +48,13 @@ funcao_graf <- function(filtro_base = NULL, filtro_projecao = NULL) {
     
     scale_x_date(date_breaks = "2 month", 
                  date_labels = "%b")+
-    scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+    scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                        values = c("Acumulado 2024"= cor2[1],
-                                  "Acumulado 2023"= cor2[2],
-                                  "Projeção 2024"=  cor2[3]), 
+                                  "Acumulado 2023"= cor2[2]), 
                        name="Legenda:")+
-    scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+    scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                           values = c("Acumulado 2024"='solid',
-                                     "Acumulado 2023"='solid',
-                                     "Projeção 2024"='longdash'), 
+                                     "Acumulado 2023"='solid'), 
                           name="Legenda:")+
     
     labs(fill = "Title") +

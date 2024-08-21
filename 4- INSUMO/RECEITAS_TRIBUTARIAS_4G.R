@@ -19,6 +19,7 @@ tabela_ICMS$acum_24 <- cumsum(tabela_ICMS$acum_24)
 tabela_ICMS$acum_proj <- cumsum(tabela_ICMS$acum_proj)
 
 fig1 <- tabela_ICMS %>% 
+  mutate(fant_24 = sub("\\.", ",", round(acum_24 / 1000000000, digits = 2))) |> 
   ggplot()+
   geom_line(aes(x = data, y = acum_23, color = "Acumulado 2023", 
                 linetype = "Acumulado 2023"), size=0.5) +
@@ -26,8 +27,7 @@ fig1 <- tabela_ICMS %>%
   geom_line(aes(x = data, y = acum_24, color = "Acumulado 2024", 
                 linetype = "Acumulado 2024"), size=1) +
   
-  geom_line(aes(x = data, y = acum_proj, color = "Projeção 2024", 
-                linetype = "Projeção 2024"), size=0.5) +
+  geom_label(aes(x = data, y = acum_24, label = fant_24),vjust = -1.2,colour = cor2[1], size = 3) +
   
   labs(x = "  ", 
        y = "Valores em Reais (R$)", 
@@ -39,16 +39,14 @@ fig1 <- tabela_ICMS %>%
   
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
-  scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+  scale_color_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                      values = c("Acumulado 2024"=cor2[1],
-                                "Acumulado 2023"=cor2[2],
-                                "Projeção 2024"=cor2[3]) 
+                                "Acumulado 2023"=cor2[2]) 
                      # name="Legenda:"
   )+
-  scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024", 'Projeção 2024'),
+  scale_linetype_manual(breaks = c('Acumulado 2023', "Acumulado 2024"),
                         values = c("Acumulado 2024"='solid',
-                                   "Acumulado 2023"='solid',
-                                   "Projeção 2024"='longdash') 
+                                   "Acumulado 2023"='solid') 
                         # name="Legenda:"
   )+
   
@@ -86,6 +84,7 @@ tabela_IPVA$acum_24 <- cumsum(tabela_IPVA$acum_24)
 tabela_IPVA$acum_proj <- cumsum(tabela_IPVA$acum_proj)
 
 fig2 <- tabela_IPVA %>% 
+  mutate(fant_24 = sub("\\.", ",", round(acum_24 / 1000000000, digits = 2))) |> 
   ggplot()+
   geom_line(aes(x = data, y = acum_23, color = "Acumulado IPVA 2023", 
                 linetype = "Acumulado IPVA 2023"), size=0.5) +
@@ -93,8 +92,7 @@ fig2 <- tabela_IPVA %>%
   geom_line(aes(x = data, y = acum_24, color = "Acumulado IPVA 2024", 
                 linetype = "Acumulado IPVA 2024"), size=1) +
   
-  geom_line(aes(x = data, y = acum_proj, color = "Projeção IPVA 2024", 
-                linetype = "Projeção IPVA 2024"), size=0.5) +
+  geom_label(aes(x = data, y = acum_24, label = fant_24),vjust = -1.2,colour = cor2[1], size = 3) +
   
   labs(x = "  ", 
        y = NULL, 
@@ -106,15 +104,13 @@ fig2 <- tabela_IPVA %>%
   
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
-  scale_color_manual(breaks = c('Acumulado IPVA 2023', "Acumulado IPVA 2024", 'Projeção IPVA 2024'),
+  scale_color_manual(breaks = c('Acumulado IPVA 2023', "Acumulado IPVA 2024"),
                      values = c("Acumulado IPVA 2024"=cor2[1],
-                                "Acumulado IPVA 2023"=cor2[2],
-                                "Projeção IPVA 2024"=cor2[3]), 
+                                "Acumulado IPVA 2023"=cor2[2]), 
                      name="Legenda:")+
-  scale_linetype_manual(breaks = c('Acumulado IPVA 2023', "Acumulado IPVA 2024", 'Projeção IPVA 2024'),
+  scale_linetype_manual(breaks = c('Acumulado IPVA 2023', "Acumulado IPVA 2024"),
                         values = c("Acumulado IPVA 2024"='solid',
-                                   "Acumulado IPVA 2023"='solid',
-                                   "Projeção IPVA 2024"='longdash'), 
+                                   "Acumulado IPVA 2023"='solid'), 
                         name="Legenda:")+
   
   labs(fill = "Title",
@@ -150,6 +146,7 @@ tabela_ITCD$acum_24 <- cumsum(tabela_ITCD$acum_24)
 tabela_ITCD$acum_proj <- cumsum(tabela_ITCD$acum_proj)
 
 fig3 <- tabela_ITCD %>% 
+  mutate(fant_24 = sub("\\.", ",", round(acum_24 / 1000000, digits = 2))) |> 
   ggplot()+
   geom_line(aes(x = data, y = acum_23, color = "Acumulado ITCD 2023", 
                 linetype = "Acumulado ITCD 2023"), size=0.5) +
@@ -157,8 +154,7 @@ fig3 <- tabela_ITCD %>%
   geom_line(aes(x = data, y = acum_24, color = "Acumulado ITCD 2024", 
                 linetype = "Acumulado ITCD 2024"), size=1) +
   
-  geom_line(aes(x = data, y = acum_proj, color = "Projeção ITCD 2024", 
-                linetype = "Projeção ITCD 2024"), size=0.5) +
+  geom_label(aes(x = data, y = acum_24, label = fant_24),vjust = -1.2,colour = cor2[1], size = 3) +
   
   labs(x = "  ", 
        y = "Valores em Reais (R$)", 
@@ -170,15 +166,13 @@ fig3 <- tabela_ITCD %>%
   
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
-  scale_color_manual(breaks = c('Acumulado ITCD 2023', "Acumulado ITCD 2024", 'Projeção ITCD 2024'),
+  scale_color_manual(breaks = c('Acumulado ITCD 2023', "Acumulado ITCD 2024"),
                      values = c("Acumulado ITCD 2024"=cor2[1],
-                                "Acumulado ITCD 2023"=cor2[2],
-                                "Projeção ITCD 2024"=cor2[3]), 
+                                "Acumulado ITCD 2023"=cor2[2]), 
                      name="Legenda:")+
-  scale_linetype_manual(breaks = c('Acumulado ITCD 2023', "Acumulado ITCD 2024", 'Projeção ITCD 2024'),
+  scale_linetype_manual(breaks = c('Acumulado ITCD 2023', "Acumulado ITCD 2024"),
                         values = c("Acumulado ITCD 2024"='solid',
-                                   "Acumulado ITCD 2023"='solid',
-                                   "Projeção ITCD 2024"='longdash'), 
+                                   "Acumulado ITCD 2023"='solid'), 
                         name="Legenda:")+
   
   labs(fill = "Title",
@@ -214,6 +208,7 @@ tabela_FUNDEINFRA$acum_24 <- cumsum(tabela_FUNDEINFRA$acum_24)
 tabela_FUNDEINFRA$acum_proj <- cumsum(tabela_FUNDEINFRA$acum_proj)
 
 fig4 <- tabela_FUNDEINFRA %>% 
+  mutate(fant_24 = sub("\\.", ",", round(acum_24 / 1000000, digits = 2))) |> 
   ggplot()+
   geom_line(aes(x = data, y = acum_23, color = "Acumulado FUNDEINFRA 2023", 
                 linetype = "Acumulado FUNDEINFRA 2023"), size=0.5) +
@@ -221,8 +216,7 @@ fig4 <- tabela_FUNDEINFRA %>%
   geom_line(aes(x = data, y = acum_24, color = "Acumulado FUNDEINFRA 2024", 
                 linetype = "Acumulado FUNDEINFRA 2024"), size=1) +
   
-  geom_line(aes(x = data, y = acum_proj, color = "Projeção FUNDEINFRA 2024", 
-                linetype = "Projeção FUNDEINFRA 2024"), size=0.5) +
+  geom_label(aes(x = data, y = acum_24, label = fant_24),vjust = -1.2,colour = cor2[1], size = 3) +
   
   labs(x = "  ", 
        y = NULL, 
@@ -234,15 +228,13 @@ fig4 <- tabela_FUNDEINFRA %>%
   
   scale_x_date(date_breaks = "2 month", 
                date_labels = "%b")+
-  scale_color_manual(breaks = c('Acumulado FUNDEINFRA 2023', "Acumulado FUNDEINFRA 2024", 'Projeção FUNDEINFRA 2024'),
+  scale_color_manual(breaks = c('Acumulado FUNDEINFRA 2023', "Acumulado FUNDEINFRA 2024"),
                      values = c("Acumulado FUNDEINFRA 2024"=cor2[1],
-                                "Acumulado FUNDEINFRA 2023"=cor2[2],
-                                "Projeção FUNDEINFRA 2024"=cor2[3]), 
+                                "Acumulado FUNDEINFRA 2023"=cor2[2]), 
                      name="Legenda:")+
-  scale_linetype_manual(breaks = c('Acumulado FUNDEINFRA 2023', "Acumulado FUNDEINFRA 2024", 'Projeção FUNDEINFRA 2024'),
+  scale_linetype_manual(breaks = c('Acumulado FUNDEINFRA 2023', "Acumulado FUNDEINFRA 2024"),
                         values = c("Acumulado FUNDEINFRA 2024"='solid',
-                                   "Acumulado FUNDEINFRA 2023"='solid',
-                                   "Projeção FUNDEINFRA 2024"='longdash'), 
+                                   "Acumulado FUNDEINFRA 2023"='solid'), 
                         name="Legenda:")+
   
   labs(fill = "Title",

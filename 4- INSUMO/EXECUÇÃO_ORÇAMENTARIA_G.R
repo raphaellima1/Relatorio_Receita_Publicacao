@@ -75,7 +75,7 @@ fig1 <- excu_orcamentaria_G |>
                         values = c("Dotação" = 'solid', "Empenho" = 'solid', 
                                    "Liquidação" = 'solid',"Pagamento" = 'solid'), 
                         name = "Legenda:") +
-  theme_classic2() +
+  theme_hc() +
   theme(plot.title = element_text(hjust = 0.5),
         legend.title = element_blank(),
         legend.position = "bottom")

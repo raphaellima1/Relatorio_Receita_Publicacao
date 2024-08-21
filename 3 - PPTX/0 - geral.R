@@ -55,20 +55,14 @@ source( encoding = 'UTF-8', file = './3 - pptx/RECEITAS TRIBUTARIAS G.R')
 
 source( encoding = 'UTF-8', file = './3 - pptx/MACRO SETORES.R')
 
-# # add capa_seção - Seção 1
-# ###############################################
-# my <- my %>%
-#   add_slide(layout = "capa_seção", master = "RRF_template_01") %>% 
-#   ph_with(value = "EXECUÇÃO ORÇAMENTÁRIA", location = ph_location_type(type = "title")) %>% 
-#   ph_with(value = "1.", location = ph_location_type(type = "subTitle"))
-# 
-# 
-# # Execução orçamentária ---------------------------------------------------
-# source( encoding = 'UTF-8', file = './3 - pptx/EXECUÇÃO ORÇAMENTARIA.R')
-# 
-# source( encoding = 'UTF-8', file = './3 - pptx/EXECUÇÃO ORÇAMENTARIA_E.R')
-# # Despesa Liquidada -------------------------------------------------------
-# source( encoding = 'UTF-8', file = './3 - pptx/DESPESA LIQUIDADA.R')
+
+# Execução orçamentária ---------------------------------------------------
+source( encoding = 'UTF-8', file = './3 - pptx/EXECUÇÃO ORÇAMENTARIA.R')
+
+
+source( encoding = 'UTF-8', file = './3 - pptx/EXECUÇÃO ORÇAMENTARIA_E.R')
+# Despesa Liquidada -------------------------------------------------------
+source( encoding = 'UTF-8', file = './3 - pptx/DESPESA LIQUIDADA.R')
 # # Finalização da apresentação
 # ##############################################
 # 

@@ -19,6 +19,7 @@ excu_orcamentaria_T <- excu_orcamentaria |>
 
 # Supondo que excu_orcamentaria_T seja seu dataframe
 ft <- excu_orcamentaria_T |> 
+  filter(GND_Cod != 9) |> 
   flextable()  |>  
   border_remove()  |> 
   colformat_double(j = c("dotação", "Empenho", 'Liquidação', 'Pagamento'),
@@ -49,7 +50,7 @@ ft <- excu_orcamentaria_T |>
   bg(i = c(2, 4, 6), part = "body", bg = cor1[1]) |> 
   align(i = c(1), j = NULL, align = "center", part = "header") |> 
   width(j = 1, width = 2, unit = 'cm') |> 
-  width(j = c(2:5), width = 2.5, unit = 'cm') |> 
+  width(j = c(2:5), width = 2.6, unit = 'cm') |> 
   width(j = c(6:8), width = 2, unit = 'cm') 
 
 # Aplicar barras de progresso nas colunas específicas
@@ -62,16 +63,16 @@ for (col in c("dot_emp", "liq_emp", "pgto_liqui")) {
     as_chunk(sprintf("%.1f %%", as.numeric(.data[[col]])))
   ))
 }
-for (col in c("dot_emp", "liq_emp", "pgto_liqui")) {
-
-  ft <- compose(ft, j = col, i = 8, value = as_paragraph(
-    minibar(value = as.numeric(.data[[col]]), 
-            max = max(as.numeric(excu_orcamentaria_T[[col]]), na.rm = TRUE), 
-            height = 0.5, width = 1.2, barcol = cor1[3], unit = 'cm'),
-    ' ',
-    as_chunk(sprintf("%.1f %%", as.numeric(.data[[col]])))
-  )) |> 
-    align( j = c(6:8), align = "right", part = "body")
-}
-ft
-save_as_image(ft, path = 'imagem.png')
+# for (col in c("dot_emp", "liq_emp", "pgto_liqui")) {
+# 
+#   ft <- compose(ft, j = col, i = 8, value = as_paragraph(
+#     minibar(value = as.numeric(.data[[col]]), 
+#             max = max(as.numeric(excu_orcamentaria_T[[col]]), na.rm = TRUE), 
+#             height = 0.5, width = 1.2, barcol = cor1[3], unit = 'cm'),
+#     ' ',
+#     as_chunk(sprintf("%.1f %%", as.numeric(.data[[col]])))
+#   )) |> 
+#     align( j = c(6:8), align = "right", part = "body")
+# }
+# ft
+# save_as_image(ft, path = 'imagem.png')

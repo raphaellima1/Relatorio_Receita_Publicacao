@@ -70,23 +70,22 @@ tabela_COMB <- ICMS_base %>%
 
 
 tabela_COM_ICMS <- tabela_COMB %>%
-  select(-crescimento) |> 
+  select(-crescimento, -proj_acum, -proj_me,
+         -dif_mes,-dif_acum, -col_space, -col_space2) |> 
   flextable() %>% 
   border_remove() %>%
-  colformat_double(j = c("mes_23", "mes_24", 'acum_23', 'acum_24',
-                         "proj_acum", "proj_me"),
+  colformat_double(j = c("mes_23", "mes_24", 'acum_23', 'acum_24'),
                    big.mark=".",
                    decimal.mark = ',', 
                    digits = 0, 
                    na_str = "--") %>% 
   
-  colformat_double(j = c('dif_mes', 'dif_acum'),
-                   big.mark=".",
-                   decimal.mark = ',', 
-                   digits = 2, 
-                   na_str = "--") %>% 
-  set_header_labels(values = c('Arrecadação',"2023", "2024",'', '2023', '2024','',
-                               "Mensal", "Acumulado",'', "Mensal", "Acumulado")) %>% 
+  # colformat_double(j = c('dif_mes', 'dif_acum'),
+  #                  big.mark=".",
+  #                  decimal.mark = ',', 
+  #                  digits = 2, 
+  #                  na_str = "--") %>% 
+  set_header_labels(values = c('Arrecadação',"2023", "2024",'', '2023', '2024')) %>% 
   bg(., 
      part = "header", 
      bg = cor1[2]) %>% 
@@ -109,23 +108,20 @@ tabela_COM_ICMS <- tabela_COMB %>%
           bold = F,
           color = cor1[3]
         )) %>% 
-  color( ~ dif_mes < 0, ~ dif_mes, color = cor1[4]) %>% 
-  color( ~ dif_acum < 0, ~ dif_acum, color = cor1[4]) %>% 
+  # color( ~ dif_mes < 0, ~ dif_mes, color = cor1[4]) %>% 
+  # color( ~ dif_acum < 0, ~ dif_acum, color = cor1[4]) %>% 
   hline(i = c(10,11), part = "body", 
         border =  std_border) %>% 
-  add_header_row(values = c('Arrecadação', 'Mensal', '  ', "Acumulado (Ano)",
-                            '   ', "Projeções", '    ', 
-                            'Diferença em R$ (Real./24) - (Proj./24)'), 
-                 colwidths = c(1,2,1,2,1,2,1,2)) %>% 
+  add_header_row(values = c('Arrecadação', 'Mensal', '  ', "Acumulado (Ano)"), 
+                 colwidths = c(1,2,1,2)) %>% 
   #merge_at(i = 1:2, j = 1, part = "header") %>% 
   merge_at(i = 1:2, j = c(1), part = "header") %>% 
   align(i = 1, j = NULL, align = "center", part = "header") %>% 
-  hline(i = 1, j = c(2,3,5,6,8,9,11,12), part = "header", 
+  hline(i = 1, j = c(2,3,5,6), part = "header", 
         border =  std_border) %>% 
-  width(j = c(4,7,10), width = .2, unit = 'cm') %>% 
-  width(j = 1, width = 4.0, unit = 'cm') %>% 
-  width(j = c(2,3,5,6,8,9,11,12), width = 1.9, unit = 'cm') |> 
-  width(j = c(9,12), width = 2.5, unit = 'cm')
+  width(j = c(4), width = .3, unit = 'cm') %>% 
+  width(j = 1, width = 6.0, unit = 'cm') %>% 
+  width(j = c(2,3,5,6), width = 2.2, unit = 'cm')
 
 index <- c(1:11)
 # Definir o tamanho do gráfico
