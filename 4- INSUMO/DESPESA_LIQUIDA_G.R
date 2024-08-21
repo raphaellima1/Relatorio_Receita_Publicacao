@@ -39,7 +39,7 @@ fig1 <- desp_liquidada |>
   scale_linetype_manual(breaks = c('2023', '2024'),
                         values = c('2023' = 'solid', '2024' = 'solid'), 
                         name = "Legenda:") +
-  theme_classic2() +
+  theme_hc() +
   labs(title = 'Despesa Total Liquidada \n (Valores Acumulados)',
        x = "  ", 
        y = "Valores em Reais (R$)") +
@@ -59,7 +59,7 @@ desp_liquidada_Grupo <- e_orca |>
   mutate(AnoMes = format(ym(AnoMes), '%m')) |> 
   pivot_wider(names_from = Exercício, values_from = Liquidação) |> 
   mutate(AnoMes = as.numeric(AnoMes)) |> 
-filter(AnoMes <= as.numeric(month(Sys.Date() - 1))) |> 
+filter(AnoMes <= as.numeric(month(mes_atualizacao) - 1)) |> 
   group_by(GND_Nome) |> 
   summarise(acum_23 = sum(`2023`, na.rm = T),
             acum_24 = sum(`2024`, na.rm = T))
@@ -79,7 +79,7 @@ fig2 <- desp_liquidada_Grupo |>
   scale_fill_manual(name = "Legenda:", values = c("acum_23" = cor2[1]
                                                     , "acum_24" = cor2[2]), 
                     labels = c( "2023", "2024")) +
-  theme_classic2() +
+  theme_hc() +
   labs(title = 'Despesa Total Liquidada \n (Valores Acumulados)',
        x = "  ", 
        y = "Valores em Reais (R$)") +
