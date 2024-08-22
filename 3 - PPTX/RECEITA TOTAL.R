@@ -14,7 +14,7 @@ my <- my %>%
   ph_with(value = "Receita Total", 
           location = ph_location_type(type = "title")) %>%
   
-  ph_with(value = glue('Resultados preliminares em {format(Sys.Date(), "%d/%m/%y")}'),
+  ph_with(value = glue('Acumulada e mensal'),
           location = ph_location_type(type = "subTitle")) %>%
   
   ph_with(value = format(Sys.Date(), "%d/%m/%Y"),

@@ -156,11 +156,11 @@ fig1 <-
                 linetype = "Realizado 2024"), size=1) +
   # geom_label(aes(x = data, y = PROJ_24, label = fantp_24),vjust = 1.1,colour = cor2[3])+
   # geom_label(aes(x = data, y = RCL_23, label = fant_23),vjust = 0.5,colour = cor2[2]) +
-  geom_label(aes(x = data, y = RCL_24, label = fant_24),vjust = 0.5,colour = cor2[1], size = 3) +
+  geom_label(aes(x = data, y = RCL_24, label = fant_24),vjust = -0.8,colour = cor2[1], size = 3) +
   labs(x = "",y = "",title = "RCL acumulada em 12 meses",
        linetype = "Variable",color = "Variable") +
   scale_y_continuous(labels=scales::label_number(scale_cut = scales::cut_short_scale(),decimal.mark = ',',
-                                                 prefix='R$ ')) +
+                                                 prefix='R$ '), limits = c(20000000000,45000000000)) +
   scale_x_date(limits = c(min(RCL12_m$data), max(RCL12_m$data) %m+% months(1)),
                date_breaks = "2 month", 
                date_labels = "%b")+

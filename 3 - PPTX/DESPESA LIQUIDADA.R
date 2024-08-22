@@ -46,7 +46,7 @@ my <- my %>%
       fp_p = border2
     )
   ),
-  location = ph_location(left = 0.2, top = 1.1, width = 3.14, 
+  location = ph_location(left = 0.2, top = 1.1, width = 4, 
                          height = 0.90, bg = cor1[2])) |> 
   
   # segundo bloco
@@ -62,7 +62,7 @@ my <- my %>%
       fp_p = border2
     )
   ),
-  location = ph_location(left = 3.44, top = 1.1, width = 3.14, 
+  location = ph_location(left = 4.6, top = 1.1, width = 4, 
                          height = 0.90, bg = cor1[2])) |> 
   
   # terceiro bloco
@@ -80,24 +80,8 @@ my <- my %>%
       fp_p = border2
     )
   ),
-  location = ph_location(left = 6.68, top = 1.1, width = 3.14, 
-                         height = 0.90, bg = cor1[2])) |> 
-  
-  # quarto bloco
-  ph_with(block_list(
-    fpar(
-      ftext(glue('{format(bloco4, decimal.mark = ",", scientific = FALSE)} %'), 
-            prop = fp_text(font.size = 18, color = "#ffffff", bold = T)),
-      fp_p = border2
-    ),
-    fpar(
-      ftext(glue('Variação (%) \n liquidação Pessoal e Encargos'), 
-            prop = fp_text(font.size = 14, color = "#ffffff")),
-      fp_p = border2
-    )
-  ),
-  location = ph_location(left = 9.92, top = 1.1, width = 3.14, 
-                         height = 0.90, bg = cor1[2]))
+  location = ph_location(left = 9, top = 1.1, width = 4, 
+                         height = 0.90, bg = cor1[2])) 
   
   
   

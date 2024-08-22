@@ -130,10 +130,10 @@ df_G323 <- df %>%
 
 # REALIZADO ACUM --------------------
 
-df <- read_excel('./0 - DADOS/RECEITA_LIQUIDA_MONITOR_PLDO25_20240417.xlsx', sheet = "realizado") %>% 
-  slice(-1) %>% 
-  setNames(.[1,]) %>% 
-  .[-1,]
+df <- read_excel('./0 - DADOS/RECEITA_LIQUIDA_MONITOR_PLDO25_20240417.xlsx', sheet = "realizado")
+  #slice(-1) %>% 
+  #setNames(.[1,]) %>% 
+  #.[-1,]
 
 df_acum23 <- df %>% 
   filter(RECEITAS == "1. RECEITAS CORRENTES" |
@@ -271,7 +271,7 @@ TAB_GER <- df_PLOA2024 %>%
 # FORMATAÇÃO DA TABELA -----------------
 
 tabela_acumulado <- TAB_GER %>%
-  select(-GERENCIAL, -`Até agosto`, -`Dif. (R$)`,-`Dif. (%)`, -col_space...13) |> 
+  select(-GERENCIAL, -!!mes_dados, -`Dif. (R$)`,-`Dif. (%)`, -col_space...13) |> 
   flextable() %>% 
   fontsize(size = 10, part = "header") %>% 
   fontsize(size = 10, part = "body") %>%

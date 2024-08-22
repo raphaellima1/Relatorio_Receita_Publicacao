@@ -15,7 +15,7 @@ my <- my %>%
   ph_with(value = "Receita Corrente Líquida (RCL)", 
           location = ph_location_type(type = "title")) %>%
   
-  ph_with(value = glue('Resultados preliminares em {format(Sys.Date(), "%d/%m/%y")}'),
+  ph_with(value = glue('Acumulada 12 meses e mensal'),
           location = ph_location_type(type = "subTitle")) %>%
   
   ph_with(value = format(Sys.Date(), "%d/%m/%Y"),
@@ -54,7 +54,7 @@ my <- my %>%
       fp_p = border2
     ),
     fpar(
-      ftext(glue('Realizado até {format(Sys.Date(), "%b/%y")}'), 
+      ftext(glue('Realizado até {format(mes_atualizacao, "%b/%y")}'), 
             prop = fp_text(font.size = 16, color = "#ffffff")),
       fp_p = border2
     ),
@@ -75,7 +75,7 @@ ph_with(block_list(
     fp_p = border2
   ),
   fpar(
-    ftext(glue('Realizado em {format(Sys.Date(), "%b/%y")}'), 
+    ftext(glue('Realizado em {format(mes_atualizacao, "%b/%y")}'), 
           prop = fp_text(font.size = 16, color = "#ffffff")),
     fp_p = border2
   )

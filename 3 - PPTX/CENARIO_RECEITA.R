@@ -13,7 +13,7 @@ my <- my %>%
   ph_with(value = "Cenários da Receita Orçamentária",
           location = ph_location_type(type = "title")) %>%
   
-  ph_with(value = glue('Resultados preliminares em {format(Sys.Date(), "%d/%m/%y")}'),
+  ph_with(value = glue('Resultado em {format(mes_atualizacao, "%B de %Y")}'),
           location = ph_location_type(type = "subTitle")) %>%
   
   ph_with(value = format(Sys.Date(), "%d/%m/%Y"),

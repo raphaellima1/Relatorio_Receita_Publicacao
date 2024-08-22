@@ -84,6 +84,6 @@ source( encoding = 'UTF-8', file = './3 - pptx/DESPESA LIQUIDADA.R')
 
 #rm(tabela_receita, p, g, )
 my %>%
-  print(target = glue("{Sys.Date()}V2.pptx"))%>% 
+  print(target = glue("Boletim_publicação_{Sys.Date()}.pptx"))%>% 
   browseURL()
 

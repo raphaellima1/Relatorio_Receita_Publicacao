@@ -1,6 +1,7 @@
 excu_orcamentaria <- e_orca |> 
   filter(Exercício == year(Sys.Date())) |> 
-  mutate(data = ymd(paste0(AnoMes,'01')))
+  mutate(data = ymd(paste0(AnoMes,'01'))) |>
+  filter(data <= fim_mes_anterior)
   
 
 

@@ -1,7 +1,8 @@
 excu_orcamentaria <- e_orca |> 
   filter(Exercício == year(Sys.Date()),
          Poder == 'EXECUTIVO') |> 
-  mutate(data = ymd(paste0(AnoMes,'01')))
+  mutate(data = ymd(paste0(AnoMes,'01'))) |>
+  filter(data <= fim_mes_anterior)
 
 
 
@@ -52,7 +53,7 @@ ft <- excu_orcamentaria_T |>
   align(i = c(1), j = NULL, align = "center", part = "header") |> 
   width(j = 1, width = 2, unit = 'cm') |> 
   width(j = c(2:5), width = 2.6, unit = 'cm') |> 
-  width(j = c(6:8), width = 1.9, unit = 'cm') 
+  width(j = c(6:8), width = 2, unit = 'cm') 
 
 # Aplicar barras de progresso nas colunas específicas
 for (col in c("dot_emp", "liq_emp", "pgto_liqui")) {

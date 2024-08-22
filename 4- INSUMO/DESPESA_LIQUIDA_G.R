@@ -1,6 +1,9 @@
 
 desp_liquidada <- e_orca |> 
   filter(Poder == 'EXECUTIVO') |> 
+  mutate(data = ym(AnoMes)) |> 
+  filter(data <= fim_mes_anterior) |> 
+  select(-data) |> 
   select(Exercício, GND_Cod, AnoMes,  Liquidação) |> 
   filter(Exercício >= 2023) |> 
   group_by(AnoMes, Exercício) |> 
@@ -8,9 +11,9 @@ desp_liquidada <- e_orca |>
   ungroup() |> 
   mutate(AnoMes = format(ym(AnoMes), '%m')) |> 
   pivot_wider(names_from = Exercício, values_from = Liquidação) |> 
-mutate(acum_23 = cumsum(`2023`),
-       acum_24 = cumsum(`2024`),
-       data = make_date(2024, as.integer(AnoMes), 1))
+  mutate(acum_23 = cumsum(`2023`),
+         acum_24 = cumsum(`2024`),
+         data = make_date(2024, as.integer(AnoMes), 1))
 
 ultimo_ponto_23 <- desp_liquidada %>%
   filter(!is.na(acum_23)) %>%
@@ -50,6 +53,9 @@ fig1 <- desp_liquidada |>
 
 desp_liquidada_Grupo <- e_orca |> 
   filter(Poder == 'EXECUTIVO') |> 
+  mutate(data = ym(AnoMes)) |> 
+  filter(data <= fim_mes_anterior) |> 
+  select(-data) |> 
   drop_na(Liquidação) |> 
   select(Exercício, GND_Nome, AnoMes,  Liquidação)  |> 
   filter(Exercício >= 2023) |> 
@@ -59,7 +65,7 @@ desp_liquidada_Grupo <- e_orca |>
   mutate(AnoMes = format(ym(AnoMes), '%m')) |> 
   pivot_wider(names_from = Exercício, values_from = Liquidação) |> 
   mutate(AnoMes = as.numeric(AnoMes)) |> 
-filter(AnoMes <= as.numeric(month(mes_atualizacao) - 1)) |> 
+filter(AnoMes <= as.numeric(month(mes_atualizacao))) |> 
   group_by(GND_Nome) |> 
   summarise(acum_23 = sum(`2023`, na.rm = T),
             acum_24 = sum(`2024`, na.rm = T))

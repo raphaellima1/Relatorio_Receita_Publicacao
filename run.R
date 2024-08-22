@@ -1,14 +1,17 @@
-# mes_atualizacao <- Sys.Date() %m-% months(1)
-mes_atualizacao <- Sys.Date()
+pacman::p_load(tidyverse, readxl, lubridate, glue, ggpubr,gridExtra,grid,
+               ggthemes,officer, gt, kableExtra, magrittr,rvg, 
+               mschart, janitor,sidrar, lemon,zoo, rlang,flextable, 
+               htmltools,GetBCBData,rbcb,dplyr,ggplot2,tidyverse,zoo,magrittr,
+               ggthemes,scales,parallel,profvis)
+
+mes_atualizacao <- Sys.Date() %m-% months(1)
+fim_mes_anterior <- rollback(Sys.Date(), roll_to_first = FALSE)
+#mes_atualizacao <- Sys.Date()
+
 
 tempo_execucao <- system.time({
 suppressMessages({
 
-  pacman::p_load(tidyverse, readxl, lubridate, glue, ggpubr,gridExtra,grid,
-                 ggthemes,officer, gt, kableExtra, magrittr,rvg, 
-                 mschart, janitor,sidrar, lemon,zoo, rlang,flextable, 
-                 htmltools,GetBCBData,rbcb,dplyr,ggplot2,tidyverse,zoo,magrittr,
-                 ggthemes,scales,parallel,profvis)
   
 # setwd('C:/Users/rapha/OneDrive/Documentos/Trabalhos em R/Relatorio_receita')
 

@@ -5,7 +5,8 @@ ICMS_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
                         sheet = "ICMS", 
                         col_types = c("text", "text", "numeric", "text", "numeric")) %>% 
   setNames(c('Tipo', 'Grupo', 'data','Ano', 'Valor')) %>% 
-  mutate(data = ymd(data), Ano = year(data), Tipo = 'ICMS')
+  mutate(data = ymd(data), Ano = year(data), Tipo = 'ICMS') |> 
+  filter(data <= fim_mes_anterior)
 
 
 # Adicional de 2% ---------------------------------------------------------
@@ -16,7 +17,8 @@ ADD2_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
   setNames(c('Tipo', 'Grupo', 'data','Ano', 'Valor')) %>% 
   select(Tipo, data,Ano, Valor) %>% 
   mutate(Tipo = 'Adicional 2%') %>% 
-  mutate(data = ymd(data), Ano = year(data))
+  mutate(data = ymd(data), Ano = year(data))|> 
+  filter(data <= fim_mes_anterior)
 
 
 # Tabela PROTEGE ----------------------------------------------------------
@@ -26,7 +28,8 @@ PROTEGE_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
                            col_types = c("text", "text", "numeric", "text", "numeric")) %>% 
   setNames(c('Tipo', 'Grupo', 'data','Ano', 'Valor')) %>% 
   select(Tipo, data, Ano, Valor) %>% 
-  mutate(data = ymd(data), Ano = year(data), Tipo = 'PROTEGE') 
+  mutate(data = ymd(data), Ano = year(data), Tipo = 'PROTEGE') |> 
+  filter(data <= fim_mes_anterior)
 
 
 # Tabela IPVA -------------------------------------------------------------
@@ -37,7 +40,8 @@ IPVA_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
   setNames(c( 'Tipo', 'Grupo', 'data','Ano', 'Valor')) %>%  
   drop_na() %>% 
   select(Tipo, data, Ano, Valor) %>% 
-  mutate(data = ymd(data), Ano = year(data), Tipo = 'IPVA')
+  mutate(data = ymd(data), Ano = year(data), Tipo = 'IPVA')|> 
+  filter(data <= fim_mes_anterior)
 
 
 # Tabela ITCD -------------------------------------------------------------
@@ -48,7 +52,8 @@ ITCD_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
   setNames(c( 'Tipo', 'Grupo', 'data','Ano', 'Valor')) %>% 
   drop_na() %>% 
   select(Tipo, data, Ano, Valor) %>% 
-  mutate(data = ymd(data), Ano = year(data), Tipo = 'ITCD')
+  mutate(data = ymd(data), Ano = year(data), Tipo = 'ITCD')|> 
+  filter(data <= fim_mes_anterior)
 
 
 # Tabela FUNDEINFRA -------------------------------------------------------
@@ -59,7 +64,8 @@ FUNDEINFRA_base <- read_excel("./0 - DADOS/ICMS_TOTAL_2024.xlsx",
   setNames(c( 'Tipo', 'Grupo', 'data','Ano', 'Valor')) %>% 
   drop_na() %>% 
   select(Tipo, data, Ano, Valor) %>% 
-  mutate(data = ymd(data), Ano = year(data), Tipo = 'FUNDEINFRA')
+  mutate(data = ymd(data), Ano = year(data), Tipo = 'FUNDEINFRA')|> 
+  filter(data <= fim_mes_anterior)
 
 
 # Tabela total ------------------------------------------------------------
