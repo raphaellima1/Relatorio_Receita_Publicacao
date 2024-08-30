@@ -6,7 +6,7 @@ my <- read_pptx('template - v2.pptx') %>%
   ph_with(value = "Boletim Econômico", 
           location = ph_location_type(type = "ctrTitle")) %>% 
   
-  ph_with(value = glue("Edição de {format(Sys.Date(), '%d/%m/%Y')}"), 
+  ph_with(value = glue("Edição de {format(mes_atualizacao, '%B de %Y')}"), 
           location = ph_location_type(type = "subTitle"))
 
 
